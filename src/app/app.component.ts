@@ -11,18 +11,33 @@ export class AppComponent implements OnInit {
 
   constructor(private http: HttpClient) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.fetchPosts();
+  }
 
   onCreatePost(postData: { title: string; content: string }) {
     // Send Http request
     console.log(postData);
+    this.http.post('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json', postData).subscribe(responseData =>{
+      console.log(responseData);
+    });
   }
 
   onFetchPosts() {
     // Send Http request
+    this.fetchPosts();
   }
 
   onClearPosts() {
     // Send Http request
+  }
+
+
+  private fetchPosts(){
+    this.http.get('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+    .pipe()
+    .subscribe(posts => {
+      console.log(posts)
+    });
   }
 }
