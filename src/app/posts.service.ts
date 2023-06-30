@@ -17,7 +17,7 @@ export class PostService {
     }
 
     fetchPosts(){
-        this.http.get<{ [key: string]: Post }>('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+        return this.http.get<{ [key: string]: Post }>('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
         .pipe(
           map( responseData => {
             const postsArray: Post[] = [];
@@ -29,8 +29,5 @@ export class PostService {
             return postsArray;
           })
         )
-        .subscribe(posts => {
-          console.log(posts)
-        });
     }
 }
