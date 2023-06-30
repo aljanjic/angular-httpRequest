@@ -35,7 +35,8 @@ export class PostService {
         return this.http.get<{ [key: string]: Post }>('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json', 
         {
           headers: new HttpHeaders({'Custom-Header': 'Hello'}),
-          params: searchParams
+          params: searchParams,
+          responseType: 'json'
         })
         .pipe(
           map( responseData => {
