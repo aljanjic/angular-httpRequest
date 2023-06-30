@@ -58,7 +58,12 @@
           <p> {{ post.content }}</p>
         </li>
       </ul>
-      <h4 *ngIf="isFetching">Loading...</h4>
+      <h4 *ngIf="isFetching && !error">Loading...</h4>
+      <div class="alert alert-danger" *ngIf="error">
+        <h1> An Error Occurred</h1>
+        <p>{{ error }} </p>
+      
+      </div>
     </div>
   </div>
 </div>
