@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpEventType, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Post } from "./post.model";
-import { map, catchError } from "rxjs/operators";
+import { map, catchError, tap } from "rxjs/operators";
 import { Subject, throwError } from "rxjs";
 
 
@@ -14,7 +14,13 @@ export class PostService {
 
     createAndStorePost(title: string, content: string){
         const postData: Post = {title: title, content: content }
-        this.http.post<{name: string}>('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json', postData).subscribe(responseData =>{
+        this.http.post<{name: string}>('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json',
+        postData,
+        {
+          observe: 'response'
+        }
+        )
+        .subscribe(responseData =>{
           console.log(responseData);
         }, error => { 
           this.error.next(error.message)
@@ -49,6 +55,19 @@ export class PostService {
     }
 
     clearPosts(){
-        return this.http.delete<{name: string}>('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+        return this.http.delete<{name: string}>('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json',
+        {
+          observe: 'events'
+        }
+        ).pipe(
+          tap(event => {
+          console.log(event)
+          if (event.type === HttpEventType.Response){
+            //
+          }
+          if (event.type === HttpEventType.Response){
+            console.log(event.body)
+          }
+        }));
     }
 }
