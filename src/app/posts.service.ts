@@ -30,4 +30,8 @@ export class PostService {
           })
         )
     }
+
+    clearPosts(){
+        return this.http.delete<{name: string}>('https://ng-http-request-6ea93-default-rtdb.europe-west1.firebasedatabase.app/posts.json')
+    }
 }

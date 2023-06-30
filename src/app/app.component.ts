@@ -27,7 +27,11 @@ export class AppComponent implements OnInit {
 
   onCreatePost(postData: Post) {
     // Send Http request
-    this.postService.createAndStorePost(postData.title, postData.content)
+    this.postService.createAndStorePost(postData.title, postData.content);
+
+    setTimeout(()=>{
+      this.onFetchPosts();
+    },2000)
   }
 
   onFetchPosts() {
@@ -41,6 +45,9 @@ export class AppComponent implements OnInit {
 
   onClearPosts() {
     // Send Http request
+    this.postService.clearPosts().subscribe( () =>{
+      this.loadedPosts = [];
+    });
   }
 
 
